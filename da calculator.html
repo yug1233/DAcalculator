@@ -3,233 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DA Calculator - Calculate Dearness Allowance</title>
+    <title>DA Calculator - Calculate Your Dearness Allowance</title>
+    <meta name="description" content="Calculate your Dearness Allowance (DA) easily with our DA Calculator. Understand how DA is calculated and why it is important.">
     <style>
-        /* Color Scheme */
-        :root {
-            --primary-color: #2c3e50; /* Dark Blue */
-            --secondary-color: #3498db; /* Light Blue */
-            --background-color: #f4f7f9; /* Light Gray */
-            --accent-color: #e74c3c; /* Red for highlights */
-            --text-color: #333; /* Dark Gray */
-        }
-
-        /* General Styles */
+        /* General Styling */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            padding: 30px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-size: 2.2em;
-        }
-
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--primary-color);
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .input-group input:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-        }
-
-        button {
-            width: 100%;
-            padding: 14px;
-            background-color: var(--secondary-color);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
             color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container, .content-box, .faq {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 2px 2px 20px rgba(255, 255, 255, 0.2);
+            text-align: left;
+        }
+
+        .container input, .container button {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
             border: none;
             border-radius: 5px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
-        button:hover {
-            background-color: #2980b9; /* Darker Blue */
-        }
-
-        .result-container {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: var(--background-color);
-            border-radius: 5px;
-            text-align: center;
-            display: none;
-        }
-
-        .result-container h3 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            font-size: 1.4em;
-        }
-
-        .result-container p {
-            font-size: 1.2em;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        /* Table Styles */
-        .da-table {
-            width: 100%;
-            margin-top: 30px;
-            border-collapse: collapse;
-            background-color: white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .da-table th,
-        .da-table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .da-table th {
-            background-color: var(--primary-color);
+        .container button {
+            background: #00c6ff;
             color: white;
-            font-weight: 600;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
-        .da-table tr:hover {
-            background-color: #f1f5f9;
+        .container button:hover {
+            background: #0072ff;
         }
 
-        .da-table td {
-            color: var(--text-color);
+        .content-box h2, .faq h2 {
+            color: #00c6ff;
         }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .container {
-                margin: 20px;
-                padding: 20px;
-            }
+        /* FAQ Section */
+        .faq-item {
+            margin-bottom: 15px;
+        }
 
-            h1 {
-                font-size: 1.8em;
-            }
+        .faq-question {
+            font-weight: bold;
+            cursor: pointer;
+            color: #00c6ff;
+        }
 
-            .da-table th,
-            .da-table td {
-                padding: 10px;
-            }
+        .faq-answer {
+            display: none;
+            padding-top: 5px;
+        }
+
+        /* Review Pop-up */
+        .popup {
+            display: none;
+            position: fixed;
+            bottom: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 10;
+            transition: bottom 0.5s ease-in-out;
+        }
+
+        .popup.show {
+            display: block;
+            bottom: 20px;
+        }
+
+        .emoji {
+            font-size: 24px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .thank-you {
+            display: none;
+            font-size: 18px;
+            margin-top: 10px;
+            color: green;
         }
     </style>
 </head>
 <body>
+
+    <h1>Dearness Allowance (DA) Calculator</h1>
+    <p>Calculate your DA instantly with this easy-to-use tool.</p>
+
     <div class="container">
-        <h1>DA Calculator</h1>
-        <div class="input-group">
-            <label for="basic-salary">Basic Salary</label>
-            <input type="number" id="basic-salary" placeholder="Enter your basic salary">
-        </div>
-        <div class="input-group">
-            <label for="da-rate">DA Rate (%)</label>
-            <input type="number" id="da-rate" placeholder="Enter DA rate percentage">
-        </div>
-        <button onclick="calculateDA()">Calculate DA</button>
-        <div class="result-container" id="result-container">
-            <h3>Dearness Allowance</h3>
-            <p id="da-result"></p>
+        <label for="basicSalary">Basic Salary (₹):</label>
+        <input type="number" id="basicSalary" placeholder="Enter Basic Salary">
+        
+        <label for="daPercentage">DA Percentage (%):</label>
+        <input type="number" id="daPercentage" placeholder="Enter DA %">
+        
+        <button onclick="calculateDA()">Calculate</button>
+        
+        <h3>DA Amount: ₹ <span id="daAmount">0</span></h3>
+    </div>
+
+    <!-- SEO Content -->
+    <div class="content-box">
+        <h2>What is Dearness Allowance (DA)?</h2>
+        <p>Dearness Allowance (DA) is an additional payment given to employees to offset the effects of inflation. It is revised twice a year by the government and varies based on location and sector.</p>
+
+        <h2>How is DA Calculated?</h2>
+        <p>The formula for calculating DA is: <b>DA = (Basic Salary × DA Percentage) / 100</b>. The percentage is determined based on the Consumer Price Index (CPI) and economic conditions.</p>
+
+        <h2>Why is DA Important?</h2>
+        <p>DA helps employees cope with the rising cost of living. It is particularly crucial for government employees, pensioners, and those working in high-inflation areas.</p>
+
+        <h2>Who Decides the DA Rate?</h2>
+        <p>The government revises the DA rate based on inflation data. It differs for central and state government employees and is typically updated twice a year.</p>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq">
+        <h2>Frequently Asked Questions (FAQs)</h2>
+
+        <div class="faq-item">
+            <p class="faq-question" onclick="toggleFAQ(1)">🔹 What is Dearness Allowance (DA)?</p>
+            <p class="faq-answer" id="faq1">DA is an allowance given to employees to adjust for inflation and maintain purchasing power.</p>
         </div>
 
-        <!-- DA Percentage Table -->
-        <h2 style="text-align: center; margin-top: 40px; color: var(--primary-color);">DA Percentage Table</h2>
-        <table class="da-table">
-            <thead>
-                <tr>
-                    <th>Category</th>
-                    <th>DA Rate (%)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Central Government Employees</td>
-                    <td>17%</td>
-                </tr>
-                <tr>
-                    <td>State Government Employees</td>
-                    <td>12%</td>
-                </tr>
-                <tr>
-                    <td>Private Sector Employees</td>
-                    <td>10%</td>
-                </tr>
-                <tr>
-                    <td>Pensioners</td>
-                    <td>14%</td>
-                </tr>
-                <tr>
-                    <td>Contract Workers</td>
-                    <td>8%</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="faq-item">
+            <p class="faq-question" onclick="toggleFAQ(2)">🔹 How is DA calculated?</p>
+            <p class="faq-answer" id="faq2">DA = (Basic Salary × DA Percentage) / 100.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question" onclick="toggleFAQ(3)">🔹 Is DA taxable?</p>
+            <p class="faq-answer" id="faq3">Yes, DA is fully taxable for salaried employees in India.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question" onclick="toggleFAQ(4)">🔹 How often does DA change?</p>
+            <p class="faq-answer" id="faq4">DA is usually revised twice a year—once in January and once in July.</p>
+        </div>
+
+        <div class="faq-item">
+            <p class="faq-question" onclick="toggleFAQ(5)">🔹 Does DA apply to private sector employees?</p>
+            <p class="faq-answer" id="faq5">No, DA is primarily given to government employees and pensioners.</p>
+        </div>
+    </div>
+
+    <!-- Review Pop-up -->
+    <div class="popup" id="popup">
+        <h2>How was your experience? 😊</h2>
+        <div>
+            <span class="emoji" onclick="submitFeedback()">😃</span>
+            <span class="emoji" onclick="submitFeedback()">🙂</span>
+            <span class="emoji" onclick="submitFeedback()">😐</span>
+            <span class="emoji" onclick="submitFeedback()">😞</span>
+        </div>
+        <p class="thank-you" id="thankYouMessage">Thank you for the feedback! ✅</p>
+        <button onclick="closePopup()">Close</button>
     </div>
 
     <script>
         function calculateDA() {
-            // Get input values
-            const basicSalary = parseFloat(document.getElementById('basic-salary').value);
-            const daRate = parseFloat(document.getElementById('da-rate').value);
+            let basicSalary = parseFloat(document.getElementById("basicSalary").value);
+            let daPercentage = parseFloat(document.getElementById("daPercentage").value);
 
-            // Validate inputs
-            if (isNaN(basicSalary) || isNaN(daRate)) {
-                alert("Please enter valid numbers for both fields.");
-                return;
-            }
+            let daAmount = (basicSalary * daPercentage) / 100;
+            document.getElementById("daAmount").innerText = daAmount.toFixed(2);
 
-            // Calculate DA
-            const daAmount = (basicSalary * daRate) / 100;
-            const totalSalary = basicSalary + daAmount;
+            setTimeout(() => {
+                document.getElementById("popup").classList.add("show");
+            }, 5000);
+        }
 
-            // Display result
-            const resultContainer = document.getElementById('result-container');
-            const daResult = document.getElementById('da-result');
+        function submitFeedback() {
+            document.getElementById("thankYouMessage").style.display = "block";
+            setTimeout(closePopup, 2000);
+        }
 
-            resultContainer.style.display = 'block';
-            daResult.innerHTML = `
-                DA Amount: ?${daAmount.toLocaleString('en-IN')}<br>
-                Total Salary: ?${totalSalary.toLocaleString('en-IN')}
-            `;
+        function closePopup() {
+            document.getElementById("popup").classList.remove("show");
+        }
+
+        function toggleFAQ(num) {
+            let answer = document.getElementById("faq" + num);
+            answer.style.display = answer.style.display === "block" ? "none" : "block";
         }
     </script>
+
 </body>
 </html>
