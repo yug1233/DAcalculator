@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DA Calculator - Calculate Dearness Allowance</title>
+    <style>
+        /* Color Scheme */
+        :root {
+            --primary-color: #2c3e50; /* Dark Blue */
+            --secondary-color: #3498db; /* Light Blue */
+            --background-color: #f4f7f9; /* Light Gray */
+            --accent-color: #e74c3c; /* Red for highlights */
+            --text-color: #333; /* Dark Gray */
+        }
+
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 2.2em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9; /* Darker Blue */
+        }
+
+        .result-container {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: var(--background-color);
+            border-radius: 5px;
+            text-align: center;
+            display: none;
+        }
+
+        .result-container h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.4em;
+        }
+
+        .result-container p {
+            font-size: 1.2em;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Table Styles */
+        .da-table {
+            width: 100%;
+            margin-top: 30px;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .da-table th,
+        .da-table td {
+            padding: 12px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .da-table th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .da-table tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        .da-table td {
+            color: var(--text-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .da-table th,
+            .da-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DA Calculator</h1>
+        <div class="input-group">
+            <label for="basic-salary">Basic Salary</label>
+            <input type="number" id="basic-salary" placeholder="Enter your basic salary">
+        </div>
+        <div class="input-group">
+            <label for="da-rate">DA Rate (%)</label>
+            <input type="number" id="da-rate" placeholder="Enter DA rate percentage">
+        </div>
+        <button onclick="calculateDA()">Calculate DA</button>
+        <div class="result-container" id="result-container">
+            <h3>Dearness Allowance</h3>
+            <p id="da-result"></p>
+        </div>
+
+        <!-- DA Percentage Table -->
+        <h2 style="text-align: center; margin-top: 40px; color: var(--primary-color);">DA Percentage Table</h2>
+        <table class="da-table">
+            <thead>
+                <tr>
+                    <th>Category</th>
+                    <th>DA Rate (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Central Government Employees</td>
+                    <td>17%</td>
+                </tr>
+                <tr>
+                    <td>State Government Employees</td>
+                    <td>12%</td>
+                </tr>
+                <tr>
+                    <td>Private Sector Employees</td>
+                    <td>10%</td>
+                </tr>
+                <tr>
+                    <td>Pensioners</td>
+                    <td>14%</td>
+                </tr>
+                <tr>
+                    <td>Contract Workers</td>
+                    <td>8%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function calculateDA() {
+            // Get input values
+            const basicSalary = parseFloat(document.getElementById('basic-salary').value);
+            const daRate = parseFloat(document.getElementById('da-rate').value);
+
+            // Validate inputs
+            if (isNaN(basicSalary) || isNaN(daRate)) {
+                alert("Please enter valid numbers for both fields.");
+                return;
+            }
+
+            // Calculate DA
+            const daAmount = (basicSalary * daRate) / 100;
+            const totalSalary = basicSalary + daAmount;
+
+            // Display result
+            const resultContainer = document.getElementById('result-container');
+            const daResult = document.getElementById('da-result');
+
+            resultContainer.style.display = 'block';
+            daResult.innerHTML = `
+                DA Amount: ?${daAmount.toLocaleString('en-IN')}<br>
+                Total Salary: ?${totalSalary.toLocaleString('en-IN')}
+            `;
+        }
+    </script>
+</body>
+</html>
